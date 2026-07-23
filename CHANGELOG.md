@@ -1,14 +1,8 @@
 # Changelog
 
-## 4.0.0 Test 1 — Animus Engine
+## Emergency Restore
 
-- Replaced the previous map gesture system with one synchronized pointer engine.
-- Added focal-point pinch zoom so the point under the fingers stays anchored.
-- Added bounded one-finger panning and inertial momentum.
-- Added screen-space marker clustering that recomputes after gestures settle.
-- Kept markers at a constant physical size.
-- Added a Developer toggle showing zoom, pan, visible locations and rendered groups.
-- Preserved the existing location database, progress, favorites, notes, calibration and JSON backup format.
-- Bumped the offline cache to a completely new Version 4 cache.
-
-This is a test build focused on map behavior. Existing companion screens remain intact.
+- Removed the Version 4 test map engine.
+- Restored the last known working Version 3 map and location database.
+- Changed the service-worker cache name to force Safari to discard the broken build.
+- Preserved the same local-storage key so existing progress, notes, favorites and corrections remain available.

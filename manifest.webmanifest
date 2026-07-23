@@ -1,7 +1,7 @@
 {
-  "name": "Black Flag Resynced Companion 4.0 Test",
-  "short_name": "Black Flag V4",
-  "description": "Animus Engine test build with synchronized pan, pinch zoom, momentum, screen-space clustering and developer diagnostics.",
+  "name": "Black Flag Resynced Companion",
+  "short_name": "Black Flag",
+  "description": "Modular, Animus-inspired, touch-first offline companion with interactive map, verification labels, progress tracking, Jackdaw planner, notes, favorites, calibration, corrections and JSON backup.",
   "id": "./",
   "start_url": "./",
   "scope": "./",
