@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#061920">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Black Flag Map">
+<title>Black Flag Resynced Companion 3.0</title>
+
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="apple-touch-icon" href="./icon-180.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="application-name" content="Black Flag Map">
+<meta name="description" content="Offline Assassin's Creed IV: Black Flag Resynced map and progress companion.">
+
+
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./touch-map.css">
+  <link rel="stylesheet" href="./animus.css">
+</head>
+<body>
+<header class="appbar">
+  <div class="title-row">
+    <img id="headerIcon" alt="Skull and crossed cutlasses app icon">
+    <div><h1>Black Flag Resynced Companion</h1><p>Version 4.0 Test • Offline map, planner, progress and corrections</p></div>
+  </div>
+  <div class="tabs">
+    <button class="tab active" data-view="mapView">Map</button>
+    <button class="tab" data-view="overviewView">Overview</button>
+    <button class="tab" data-view="plannerView">Planner</button>
+    <button class="tab" data-view="manageView">Manage</button>
+    <button class="tab" data-view="backupView">Backup</button>
+  </div>
+</header>
+<nav class="bottom-nav" aria-label="Main navigation">
+  <button class="bottom-nav-button active" data-view="mapView" type="button"><span>⌖</span><small>Map</small></button>
+  <button class="bottom-nav-button" data-view="overviewView" type="button"><span>◫</span><small>Overview</small></button>
+  <button class="bottom-nav-button" data-view="plannerView" type="button"><span>⚓</span><small>Jackdaw</small></button>
+  <button class="bottom-nav-button" data-view="manageView" type="button"><span>✎</span><small>Manage</small></button>
+  <button class="bottom-nav-button" data-view="backupView" type="button"><span>⇄</span><small>Backup</small></button>
+</nav>
+
+
+<section id="mapView" class="view active">
+  <div class="map-command-row">
+    <button id="toggleFilters" class="command-button" type="button" aria-expanded="true">☰ Filters</button>
+    <div class="map-status"><span class="animus-pulse"></span><span id="visibleCount">0 locations visible</span></div>
+  </div>
+  <div class="controls" id="mapFilters">
+    <input id="search" class="search" type="search" placeholder="Search name, region, reward, or coordinates">
+    <div class="chips" id="categoryChips"></div>
+    <div class="chips">
+      <button id="verifiedOnly" class="chip">Verified only</button>
+      <button id="hideCompleted" class="chip">Hide completed</button>
+      <button id="favoritesOnly" class="chip">Favorites</button>
+      <button id="editMarkers" class="chip">Edit markers</button>
+      <button id="calibrate" class="chip">Calibration</button>
+      <button id="developerToggle" class="chip">Developer</button>
+    </div>
+  </div>
+  <div class="split">
+    <div class="map-shell" id="viewport">
+      <div class="map-stage" id="stage">
+        <img id="mapImage" class="map-image" alt="Black Flag Caribbean picture map">
+        <div id="markerLayer" class="marker-layer"></div>
+      </div>
+      <div id="modeBanner" class="mode-banner hidden"></div>
+      <div id="coordReadout" class="coord-readout">Tap a marker</div>
+      <div id="developerOverlay" class="developer-overlay" aria-live="polite"></div>
+      <div class="map-toolbar">
+        <button id="zoomIn" aria-label="Zoom in">＋</button>
+        <button id="zoomOut" aria-label="Zoom out">−</button>
+        <button id="resetMap" aria-label="Reset map">↺</button>
+        <button id="fullMap" aria-label="Full screen map">⛶</button>
+      </div>
+    </div>
+    <div id="locationList" class="list-area"></div>
+  </div>
+</section>
+
+
+<section id="overviewView" class="view">
+  <div class="section">
+    <div class="v2-hero">
+      <div>
+        <span class="v2-kicker">VERSION 4.0 TEST</span>
+        <h2>Captain's Overview</h2>
+        <p>Your progress and verification coverage in one place.</p>
+      </div>
+      <button id="overviewOpenMap" class="primary">Open map</button>
+    </div>
+  </div>
+  <div class="metrics" id="v2Metrics"></div>
+  <div class="section">
+    <h2>Quick filters</h2>
+    <div class="action-row">
+      <button class="secondary v2QuickFilter" data-filter="verified">Resynced verified</button>
+      <button class="secondary v2QuickFilter" data-filter="remaining">Remaining only</button>
+      <button class="secondary v2QuickFilter" data-filter="favorites">Favorites</button>
+      <button class="secondary v2QuickFilter" data-filter="clear">Clear filters</button>
+    </div>
+  </div>
+  <div class="section"><h2>Verification coverage</h2><div id="verificationProgress"></div></div>
+  <div class="section"><h2>Progress by category</h2><div id="v2CategoryProgress"></div></div>
+  <div class="section"><h2>Progress by region</h2><div id="v2RegionProgress"></div></div>
+</section>
+
+<section id="plannerView" class="view">
+  <div class="install-note"><b>Jackdaw planner:</b> this personal checklist is separate from map completion.</div>
+  <div class="section">
+    <div class="v2-hero">
+      <div>
+        <span class="v2-kicker">SHIP UPGRADE CHECKLIST</span>
+        <h2>Jackdaw Upgrade Planner</h2>
+        <p>Track elite plans found and upgrades completed.</p>
+      </div>
+      <button id="plannerReset" class="danger">Reset planner</button>
+    </div>
+  </div>
+  <div class="metrics" id="plannerMetrics"></div>
+  <div class="section"><div id="plannerList" class="planner-list"></div></div>
+</section>
+
+<section id="progressView" class="view hidden">
+  <div class="metrics" id="metrics"></div>
+  <div class="section"><h2>Progress by category</h2><div id="categoryProgress"></div></div>
+  <div class="section"><h2>Progress by region</h2><div id="regionProgress"></div></div>
+</section>
+
+<section id="manageView" class="view">
+  <div class="install-note"><b>Data policy:</b> green records are Resynced verified. Gold records are legacy and may have moved. Purple records are community reported. Aggregate records represent a group until individual items are added.</div>
+  <div class="section">
+    <h2>Add or edit locations</h2>
+    <div class="action-row">
+      <button id="addLocation" class="primary">Add location</button>
+      <button id="showCorrections" class="secondary">Correction reports</button>
+      <button id="clearCalibration" class="secondary">Clear calibration</button>
+      <button id="resetData" class="danger">Reset all app data</button>
+    </div>
+  </div>
+  <div class="section">
+    <h2>Calibration points</h2>
+    <div id="calibrationList"></div>
+  </div>
+</section>
+
+<section id="backupView" class="view">
+  <div class="install-note">
+    <b>Home Screen installation:</b> the deployable ZIP must be hosted on an HTTPS website. Open the hosted page in Safari, tap Share, then <b>Add to Home Screen</b>. The installed version works offline after its first load.
+  </div>
+  <div class="section">
+    <h2>Backup and transfer</h2>
+    <div class="action-row">
+      <button id="exportBackup" class="primary">Export full JSON backup</button>
+      <button id="exportCorrections" class="secondary">Export corrections</button>
+      <label class="secondary file-btn">Import JSON backup<input id="importBackup" type="file" accept=".json,application/json"></label>
+    </div>
+    <p id="backupMessage" style="color:var(--muted);font-size:13px"></p>
+  </div>
+</section>
+
+<div id="detailModal" class="modal"><div class="sheet">
+  <div class="sheet-head"><h2 id="detailTitle"></h2><button class="close" data-close="detailModal">×</button></div>
+  <div id="detailBody"></div>
+</div></div>
+
+<div id="editModal" class="modal"><div class="sheet">
+  <div class="sheet-head"><h2 id="editTitle">Add location</h2><button class="close" data-close="editModal">×</button></div>
+  <div class="form-grid">
+    <label>Name<input id="fName"></label>
+    <label>Category<select id="fCategory"></select></label>
+    <label>Region<input id="fRegion"></label>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px"><label>Game X<input id="fX" inputmode="decimal"></label><label>Game Y<input id="fY" inputmode="decimal"></label></div>
+    <label>Reward<input id="fReward"></label>
+    <label>Prerequisite<input id="fPrerequisite"></label>
+    <label>Directions<textarea id="fInstructions"></textarea></label>
+    <label>Verification<select id="fVerification"></select></label>
+    <label>Source title<input id="fSourceTitle"></label>
+    <label>Source URL<input id="fSourceURL" inputmode="url"></label>
+    <label>Reference screenshot<input id="fPhoto" type="file" accept="image/*"></label>
+    <label class="form-check"><input id="fAggregate" type="checkbox"> Aggregate guide marker</label>
+    <div class="action-row"><button id="saveLocation" class="primary">Save location</button><button id="deleteLocation" class="danger hidden">Delete</button></div>
+  </div>
+</div></div>
+
+<div id="calibrationModal" class="modal"><div class="sheet">
+  <div class="sheet-head"><h2>Add calibration point</h2><button class="close" data-close="calibrationModal">×</button></div>
+  <p id="calibrationImagePoint" style="color:var(--muted)"></p>
+  <div class="form-grid">
+    <label>Known game X<input id="cGameX" inputmode="decimal"></label>
+    <label>Known game Y<input id="cGameY" inputmode="decimal"></label>
+    <button id="saveCalibration" class="primary">Save calibration point</button>
+  </div>
+</div></div>
+
+<div id="correctionModal" class="modal"><div class="sheet">
+  <div class="sheet-head"><h2>Report correction</h2><button class="close" data-close="correctionModal">×</button></div>
+  <div class="form-grid">
+    <label>Correction details<textarea id="rSummary"></textarea></label>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px"><label>Corrected X<input id="rX" inputmode="decimal"></label><label>Corrected Y<input id="rY" inputmode="decimal"></label></div>
+    <button id="saveCorrection" class="primary">Save correction</button>
+  </div>
+</div></div>
+
+<div id="reportsModal" class="modal"><div class="sheet">
+  <div class="sheet-head"><h2>Saved correction reports</h2><button class="close" data-close="reportsModal">×</button></div>
+  <div id="reportsList"></div>
+</div></div>
+
+
+
+
+
+
+<div id="welcomeOverlay" class="welcome-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="welcomeTitle">
+  <div class="welcome-card">
+    <div class="welcome-mark">◈</div>
+    <span class="eyebrow">ANIMUS DATABASE ONLINE</span>
+    <h2 id="welcomeTitle">Black Flag Resynced Companion 3.0</h2>
+    <p>The companion now runs on a modular foundation while preserving the touch-first map, offline support, progress, notes, favorites and planner data.</p>
+    <div class="welcome-grid">
+      <div><b>⌖</b><span>Touch-first map</span></div>
+      <div><b>◉</b><span>Larger markers</span></div>
+      <div><b>⚓</b><span>Jackdaw planner</span></div>
+      <div><b>⇄</b><span>Offline backup</span></div>
+    </div>
+    <button id="welcomeContinue" class="primary" type="button">Enter the Animus</button>
+  </div>
+</div>
+<div id="updateToast" class="update-toast hidden" role="status">
+  <span>A newer offline version is ready.</span>
+  <button id="reloadUpdate" type="button">Reload</button>
+</div>
+
+
+
+
+
+<script src="./version.js"></script>
+<script src="./database.js"></script>
+<script src="./app.js"></script>
+<script src="./planner.js"></script>
+<script src="./interface.js"></script>
+
+</body>
+</html>
